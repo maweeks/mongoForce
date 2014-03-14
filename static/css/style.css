@@ -1,0 +1,68 @@
+body {
+	background: #FFF; 
+	color: #234;
+	margin: 0; 
+	font-family: Verdana;
+	height: 100%;
+	width: 100%;
+	position:absolute;
+}
+.form {	
+	display: block; 
+	position: relative; 
+	margin-left: auto; 
+	margin-right: auto; 
+	width: 700px;
+}
+.textfield {
+	width: 600px;
+}
+.button { 
+	position: absolute;
+	top: 10%;
+	right: 10px;
+	font-family: Verdana;
+	font-weight: bold;
+	background-color:#FBFFF; 
+	border:1px solid; 
+	border-color: #696 #363 #363 #696; 
+}	
+
+svg { 
+	font: 15px sans-serif; 
+	fill: #234;
+	color: #111;
+}
+
+.line { 
+	fill: none; 
+	stroke: #000; 
+	stroke-width: 5px;
+}
+
+.axis path, .axis line { 
+	fill: none; 
+	stroke: #bdc3c7; 
+	shape-rendering: crispEdges;
+}
+
+.graph {
+	margin-top: 100px; 
+	background: #4E4E4E; 
+	min-height: 20px; 
+	min-width: 300px;
+}
+
+.legend {
+	color: #111;
+}
+
+#left {width: 100px; height: 100%; float: left; background: #123;}
+#right {width: 100px; height: 100%; float: right; background: #456;}
+#top {width: 100%; height: 100px; padding-left: 100px; padding-right: 100px; background: #345;}
+#center {width: 100%; height: 100%;padding-left: 100px; padding-right: 100px; padding-top: 100px; background: #789;}
+#bottom {}
+
+
+
+
