@@ -7,87 +7,47 @@ $def with (form, text)
     <script type="text/javascript" src="/static/js/jquery.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="static/js/rickshaw.js"></script>
-    <script type="text/javascript">
-    jQuery(document).ready(function() {
-            // For now, topic selection is done manually via a text box
-            jQuery(".button").click(function() {
-                input_string = $$("input#textfield").val();
-                off=0;
-                jQuery('#values').html('Awaiting first value in stream, may take up to 10 seconds...');
-                update();
-                return false;
-            });
-        });
-    </script>
 </head>
 <body>
     <br>
-    <form class="form" method="post">
-        $:form.render()
-        <input class="button" type="submit" value="send"/>
-    </form>
     <div id="graph">
     <script>
-    chart = new chartRT();
-    chart.xText = "Time";
-    chart.yText = "Value";
-    chart.titleText = "Real Time Cluster Statistics";
-    chart.MaxValue = 100;
-    chart.Ticks = 60;
-    chart.Init();
-
     var Sequence = 0;
     currentTime = 0;
     currentPred = 0;
 
     var cpu_util_topic = "topic25";
     var cpu_util_offset = "0";
-    var cpu_util_top_n_topic = "topic26";
-    var cpu_util_top_n_offset = "0";
-    var cpu_util_fake_predictions_topic = "topic27";
-    var cpu_util_fake_predictions_offset = "0";
-    var disk_read_writes_topic = "topic28"
-    var disk_read_writes_offset = "0"
     latest="";
     ajaxreq = 0;
     off = 0;
 
     // Poll the python script on the server for current values
-    var ajaxKafkaQueue = function(topic, currentoffset, callback) {
-        console.log("Performing Ajax request no " + ajaxreq + ". topic is " + topic + " and offset is " + currentoffset);
+    var ajaxMongoDB = function(topic, currentoffset, callback) {
+        console.log("Performing Ajax request no " + ajaxreq + ".")
+        console.log("Data is: " + currentoffset)
         ajaxreq ++;
         jQuery.ajax({
             type: "POST",
             data: {textfield : topic, off: currentoffset},
             success: function(data) {
-                cake = data.split('\t');
-                console.log(cake);
-                callback(cake[0],cake[1]);
+                //console.log(data);
+                callback(data);
             },
         });
     }
 
     // Takes a badly formatted text based group of JSONs and converts to an array of strings.
     var JSON_fix = function(text){
-        var arr = text.split('}');
-        console.log(arr);
+        //var arr = text.split('}');
+        //console.log(arr);
         //messily done, but cleans up packet and creates array of JSONs
-        for (var i in arr) {
-            arr[i] = arr[i] + "}";
-        }
+        //for (var i in arr) {
+        //    arr[i] = arr[i] + "}";
+        //}
         // remove last element, the outlying }
-        arr.pop();
-        return arr;
-    }
-
-    // Clean up outliers that are above 100%
-    var trim = function(val) {
-        if (val > 100) {
-            return 100;
-        }
-        else {
-            return val;
-        }
+        //arr.pop();
+        return text;
     }
 
     // Refresh the Graph of CPU Util stats
@@ -97,112 +57,27 @@ $def with (form, text)
             jQuery('#values').html('Offset: ' + cpu_util_offset + '<br /> Value: ' +  dat);
             var arr = JSON_fix(dat);
             for (var i in arr) {
-                val = JSON.parse(arr[i]);
-                var name = val['display_name'];
+                //val = JSON.parse(arr[i]);
+                //var name = val['display_name'];
                 // If chart doesn't exist, add to graph
-                if (chart.chartSeries[name] === undefined) {
+                //if (chart.chartSeries[name] === undefined) {
                     //console.log("Adding a new chart: " + name);
-                    chart.addSeries(name);
-                }
-                var currentVal = val['originvalue'];
-                chart.chartSeries[name] = currentVal;
+                //    chart.addSeries(name);
+                //}
+                //var currentVal = val['originvalue'];
+                //chart.chartSeries[name] = currentVal;
             }
         }
-    }
-
-    // Refresh the list of Top CPU usages
-    var refresh_CPU_top_n = function(myOffset, dat) {
-        cpu_util_top_n_offset = myOffset;
-        if (dat != "nonsense"){
-            arr = JSON_fix(dat);
-            val = JSON.parse(arr[0]);
-            var topString =  "";
-            for (var i in val['top']) {
-                topString = topString + (i*1+1) + ": " + val['top'][i] + "<br />";
-            }
-            jQuery('#topN').html('Top Usage @ ' + val['timestamp'] + ':<br /><div style="padding-left:30px;">' + topString + '</div>');
-        }
-        
-    }
-
-    var refresh_prediction_stream = function(myOffset, dat){
-        // TODO either implement properly, or use topic27 to display a single instance with predicted values
-        var instance = "orange";
-        cpu_util_fake_predictions_offset = myOffset;
-        if (dat != "nonsense") {
-            jQuery('#values').html('Offset: ' + cpu_util_offset + '<br /> Value: ' +  dat);
-            var arr = JSON_fix(dat);
-            for (var i in arr) {
-                var val = JSON.parse(arr[i]);
-                if (val['display_name'] == "orange") {
-                    var name = val['display_name'];
-                    if (chart.chartSeries[name] === undefined) {
-                        chart.addSeries(name);
-                        chart.addSeries(name + " pred - 30");
-                        chart.addSeries(name + " pred - 60");
-                        chart.addSeries(name + " pred - 90");
-                        chart.addSeries(name + " pred - 120");
-                        chart.addSeries(name + " pred - 150");
-                    }
-                    var currentVal = val['originvalue'];
-                    var pred1 = val['prediction'][0];
-                    var pred2 = val['prediction'][1];
-                    var pred3 = val['prediction'][2];
-                    var pred4 = val['prediction'][3];
-                    var pred5 = val['prediction'][4];
-
-                    chart.chartSeries[name] = trim(currentVal);
-                    chart.chartSeries[name + " pred - 30"] = trim(pred1);
-                    chart.chartSeries[name + " pred - 60"] = trim(pred2);
-                    chart.chartSeries[name + " pred - 90"] = trim(pred3);
-                    chart.chartSeries[name + " pred - 120"] = trim(pred4);
-                    chart.chartSeries[name + " pred - 150"] = trim(pred5);
-                }
-            }
-        }
-    }
-
-    var refresh_disk_read_writes = function(myOffset, dat) {
-        disk_read_writes_offset = myOffset;
-        if (dat != "nonsense") {
-            jQuery('#values').html('Offset: ' + cpu_util_offset + '<br /> Value: ' +  dat);
-            var arr = JSON_fix(dat);
-            for (var i in arr) {
-                val = JSON.parse(arr[i]);
-                var name = val['display_name'];
-                if (val['counter_name'] == "disk.write.bytes.rate") {
-                    // If chart doesn't exist, add to graph
-                    if (chart.chartSeries[name] === undefined) {
-                        //console.log("Adding a new chart: " + name);
-                        chart.addSeries(name);
-                    }
-                    currentVal = val['originvalue'];
-                    //console.log("Plotting " + currentVal + " On graph " + name);
-                    chart.chartSeries[name] = currentVal;
-                }
-            }
-        }
-    }
-
-    var print_stream = function(myOffset, dat){
-        jQuery('#values').html("Offset: " + myOffset + "<br /><br /> Data: " + dat);
-        cpu_util_offset = myOffset;
     }
 
     // recurringly poll for data and update D3.JS elements.
     var update = function () {
-        /* CPU Util */
-        ajaxKafkaQueue(cpu_util_topic,cpu_util_offset,refresh_CPU_util);
-        /* CPU Fake Prediction */
-        //ajaxKafkaQueue(cpu_util_fake_predictions_topic, cpu_util_fake_predictions_offset, refresh_prediction_stream);
-        /* CPU Top N */
-        ajaxKafkaQueue(cpu_util_top_n_topic,cpu_util_top_n_offset,refresh_CPU_top_n);
-        /* CPU Disk */
-        //ajaxKafkaQueue(disk_read_writes_topic, disk_read_writes_offset, refresh_disk_read_writes);
-        setTimeout(update, 10000);
+        ajaxMongoDB(cpu_util_topic,cpu_util_offset,refresh_CPU_util);
+        //setTimeout(update, 10000);
     }
 
     update();
+    setTimeout(update, 1000);
     </script>
 </div>
 <br /><br />
