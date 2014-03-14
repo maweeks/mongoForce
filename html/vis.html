@@ -12,70 +12,39 @@ $def with (form, text)
     <br>
     <div id="graph">
     <script>
-    var Sequence = 0;
-    currentTime = 0;
-    currentPred = 0;
-
-    var cpu_util_topic = "topic25";
+    var netTopTopic = "networkTopology";
     var cpu_util_offset = "0";
-    latest="";
     ajaxreq = 0;
     off = 0;
+
+    // recurringly poll for data and update D3.JS elements.
+    var update = function () {
+        ajaxMongoDB(netTopTopic,cpu_util_offset,refresh_CPU_util);
+        //setTimeout(update, 10000);
+    }
 
     // Poll the python script on the server for current values
     var ajaxMongoDB = function(topic, currentoffset, callback) {
         console.log("Performing Ajax request no " + ajaxreq + ".")
-        console.log("Data is: " + currentoffset)
+        console.log("Data is currently: " + currentoffset)
         ajaxreq ++;
         jQuery.ajax({
             type: "POST",
             data: {textfield : topic, off: currentoffset},
             success: function(data) {
-                //console.log(data);
+                console.log("New data is: " + data);
                 callback(data);
             },
         });
     }
 
-    // Takes a badly formatted text based group of JSONs and converts to an array of strings.
-    var JSON_fix = function(text){
-        //var arr = text.split('}');
-        //console.log(arr);
-        //messily done, but cleans up packet and creates array of JSONs
-        //for (var i in arr) {
-        //    arr[i] = arr[i] + "}";
-        //}
-        // remove last element, the outlying }
-        //arr.pop();
-        return text;
-    }
-
     // Refresh the Graph of CPU Util stats
     var refresh_CPU_util = function(myOffset, dat) {
         cpu_util_offset = myOffset;
-        if (dat != "nonsense"){
-            jQuery('#values').html('Offset: ' + cpu_util_offset + '<br /> Value: ' +  dat);
-            var arr = JSON_fix(dat);
-            for (var i in arr) {
-                //val = JSON.parse(arr[i]);
-                //var name = val['display_name'];
-                // If chart doesn't exist, add to graph
-                //if (chart.chartSeries[name] === undefined) {
-                    //console.log("Adding a new chart: " + name);
-                //    chart.addSeries(name);
-                //}
-                //var currentVal = val['originvalue'];
-                //chart.chartSeries[name] = currentVal;
-            }
-        }
+        jQuery('#values').html('Offset: ' + cpu_util_offset + '<br /> Value: ' +  myOffset);
     }
 
-    // recurringly poll for data and update D3.JS elements.
-    var update = function () {
-        ajaxMongoDB(cpu_util_topic,cpu_util_offset,refresh_CPU_util);
-        //setTimeout(update, 10000);
-    }
-
+    //Run when page is opened
     update();
     setTimeout(update, 1000);
     </script>
