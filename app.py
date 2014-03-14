@@ -5,14 +5,24 @@ import json
 import os.path
 import time
 
+from bson import Binary, Code
+from bson.json_util import dumps
 import pymongo
 from pymongo import MongoClient
 
 def getNetTop():
     client = MongoClient('localhost', 27017)
+    returnData=[]
+    #Get data from MongoDB
     db = client.netTop
+    dbRouters = db.routers.find({})
+    dbNetworks = db.networks.find({})
+    dbVMs = db.vms.find({})
     client.close()
-    return "dataNetTop"
+
+    #Manipulate data for sending
+    returnData = '[' + dumps(dbRouters) + ', ' + dumps(dbNetworks) + ', ' + dumps(dbVMs) + ']'
+    return returnData
 
 urls = ('/', 'vis')
 render = web.template.render('html/')
@@ -24,7 +34,7 @@ my_form = web.form.Form(
 class vis:
     def GET(self):
         form = my_form()
-        return render.vis(form, "Please wait up to 30 seconds for the data stream to collect its first values.")
+        return render.vis(form, "Wait for your data.")
          
     def POST(self):
         form = my_form()

@@ -26,14 +26,34 @@ $def with (form, text)
     // Poll the python script on the server for current values
     var ajaxMongoDB = function(topic, currentoffset, callback) {
         console.log("Performing Ajax request no " + ajaxreq + ".")
-        console.log("Data is currently: " + currentoffset)
+        //console.log("Data is currently: " + currentoffset)
         ajaxreq ++;
         jQuery.ajax({
             type: "POST",
             data: {textfield : topic, off: currentoffset},
             success: function(data) {
-                console.log("New data is: " + data);
-                callback(data);
+                if (data != currentoffset) {
+                    console.log("New data is: " + data);
+                    callback(data);
+
+                    //parse json data
+                    parseData = JSON.parse(data);
+                    //router data
+                    console.log(parseData[0]);
+                    //network data
+                    console.log(parseData[1]);
+                    //vm data
+                    console.log(parseData[2]);
+
+                    //print individual node data
+                    console.log(parseData[0][0]);
+
+                    //create graph from node data
+
+                }
+                else {
+                    console.log("No new data.")
+                }
             },
         });
     }
@@ -49,8 +69,6 @@ $def with (form, text)
     setTimeout(update, 1000);
     </script>
 </div>
-<br /><br />
-<span id="topN"></span>
 <br /><br />
 <span id="values">$text</span>
 <br />
