@@ -29,7 +29,6 @@ $def with (form, text)
     // Poll the python script on the server for current values
     var ajaxMongoDB = function(topic, currentoffset, callback) {
         console.log("Performing Ajax request no " + ajaxreq + ".")
-        //console.log("Data is currently: " + currentoffset)
         ajaxreq ++;
         jQuery.ajax({
             type: "POST",
@@ -41,12 +40,6 @@ $def with (form, text)
 
                     //parse json data
                     parseData = JSON.parse(data);
-                    //router data
-                    console.log(parseData[0]);
-                    //network data
-                    console.log(parseData[1]);
-                    //vm data
-                    console.log(parseData[2]);
 
                     //create graph from node data
                     createGraph(parseData);
@@ -110,35 +103,18 @@ $def with (form, text)
             for (i = 0; i < data[1].length; i++) {
                 dataset.nodes.push({name: data[1][i].name, type: "net"})
                 dataset.edges.push({source: findParentNodeValue(data[1][i].router), target: nodeCount})
-
-                console.log(data[1][i].name)
-
                 nodeNo.push(data[1][i].name);
                 nodeCount++;
             }
-
-            console.log(nodeNo)
-            var nononono = []
-            for (i = 0; i < data[2].length; i++) {
-                nononono.push(findParentNodeValue(data[2][i].ipAddress.name))
-            }
-            console.log(nononono)
 
             //add vms to dataset
             for (i = 0; i < data[2].length; i++) {
                 dataset.nodes.push({name: data[2][i].name, type: "vms"})
                 dataset.edges.push({source: findParentNodeValue(data[2][i].ipAddress.name), target: nodeCount})
-                //console.log(data[2][i].name + ", " + data[2][i].ipAddress.name + ", " + findParentNodeValue(data[2][i].ipAddress.name))
-
                 nodeNo.push(data[2][i].name);
                 nodeCount++;
             }
 
-
-            console.log(dataset.nodes)
-
-            console.log(dataset.nodes);
-            console.log(dataset.edges);
             //Initialize a default force layout, using the nodes and edges in dataset
             var force = d3.layout.force()
                                  .nodes(dataset.nodes)
@@ -163,6 +139,7 @@ $def with (form, text)
                 .append("line")
                 .style("stroke", "#ccc")
                 .style("stroke-width", 6);
+
             //Create nodes as circles
             var nodes = svg.selectAll("circle")
                 .data(dataset.nodes)
@@ -179,6 +156,7 @@ $def with (form, text)
                     else { return colors(4);}
                 })
                 .call(force.drag);
+
             //Every time the simulation "ticks", this will be called
             force.on("tick", function() {
                 edges.attr("x1", function(d) { return d.source.x; })
