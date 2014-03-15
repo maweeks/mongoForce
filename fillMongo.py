@@ -53,9 +53,9 @@ vmsCollection.remove()
 for x in range(0, numberOfRouters):
 	routerCollection.insert( { "name": ("router" + str(x)), "status": "active" } )
 	for y in range(0, numberOfNetworksPerRouter):
-		networkCollection.insert( { "cidr": ("13.157." + str((x*numberOfNetworksPerRouter)+y+20) + ".0/24"), "name": ("network" + str((numberOfRouters*numberOfNetworksPerRouter)-1)), "router": ("router" + str(x)), "status": "active" })
+		networkCollection.insert( { "cidr": ("13.157." + str((x*numberOfNetworksPerRouter)+y+20) + ".0/24"), "name" :("network" + str((x*numberOfNetworksPerRouter)+y)), "router": ("router" + str(x)), "status": "active" })
 		for z in range(0, numberOfVMsPerNetwork):
-			vmsCollection.insert({"createdOn" : "2014-02-28", "floatingIP" : "172.24.4.218", "imageName" : "cirros-0.3.1-x86_64-uec", "ipAddress" : {("network" + str((x*numberOfNetworksPerRouter)+y)) : ("86.146." + str((x*numberOfNetworksPerRouter)+y+10) + '.' + str(z+5)) }, "name": ("vm" + str((((x*numberOfNetworksPerRouter)+y)*numberOfVMsPerNetwork)+z)) , "status" : "active"})
+			vmsCollection.insert({"createdOn" : "2014-02-28", "floatingIP" : "172.24.4.218", "imageName" : "cirros-0.3.1-x86_64-uec", "ipAddress" : {"name" :("network" + str((x*numberOfNetworksPerRouter)+y)), "ip" : ("86.146." + str((x*numberOfNetworksPerRouter)+y+10) + '.' + str(z+5)) }, "name": ("vm" + str((((x*numberOfNetworksPerRouter)+y)*numberOfVMsPerNetwork)+z)) , "status" : "active"})
 
 print("Router: ")
 for result_object in db.routers.find({}):

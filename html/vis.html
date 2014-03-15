@@ -7,6 +7,9 @@ $def with (form, text)
     <script type="text/javascript" src="/static/js/jquery.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src="static/js/rickshaw.js"></script>
+
+    <script type="text/javascript" src="/static/js/opentip.jquery.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/opentip.css">
 </head>
 <body>
     <br>
@@ -16,7 +19,7 @@ $def with (form, text)
     var cpu_util_offset = "0";
     ajaxreq = 0;
     off = 0;
-
+    
     // recurringly poll for data and update D3.JS elements.
     var update = function () {
         ajaxMongoDB(netTopTopic,cpu_util_offset,refresh_CPU_util);
@@ -45,11 +48,8 @@ $def with (form, text)
                     //vm data
                     console.log(parseData[2]);
 
-                    //print individual node data
-                    console.log(parseData[0][0]);
-
                     //create graph from node data
-
+                    createGraph(parseData);
                 }
                 else {
                     console.log("No new data.")
@@ -61,8 +61,147 @@ $def with (form, text)
     // Refresh the Graph of CPU Util stats
     var refresh_CPU_util = function(myOffset, dat) {
         cpu_util_offset = myOffset;
-        jQuery('#values').html('Offset: ' + cpu_util_offset + '<br /> Value: ' +  dat);
+        //jQuery('#values').html('Offset: ' + cpu_util_offset + '<br /> Value: ' +  dat);
     }
+
+
+
+
+
+
+    function findParentNodeValue(name) {
+        for (var j=0; j<nodeNo.length; j++) {
+            if (nodeNo[j].match(str)) return j;
+        }
+        return -1;
+    }
+
+
+
+    function createGraph(data) {
+            //Width and height
+
+            function findParentNodeValue(str) {
+                for (var j=0; j<nodeNo.length; j++) {
+                    if (nodeNo[j].match(str)) return j;
+                }
+                return -1;
+            }
+
+            var w = window.innerWidth-10;
+            var h = window.innerHeight-50;
+
+            //Original data
+            var nodeCount = 1
+            var nodeNo = ["external"]
+            var dataset = {
+                nodes: [{ name: "External", type: "ext", message:"Active"}],
+                edges: []
+            };
+            //add routers to dataset
+            for (i = 0; i < data[0].length; i++) {
+                dataset.nodes.push({name: data[0][i].name, type: "rou"});
+                dataset.edges.push({source: 0, target: nodeCount});
+                nodeNo.push(data[0][i].name);
+                nodeCount++;
+            }
+
+            //add networks to dataset
+            for (i = 0; i < data[1].length; i++) {
+                dataset.nodes.push({name: data[1][i].name, type: "net"})
+                dataset.edges.push({source: findParentNodeValue(data[1][i].router), target: nodeCount})
+
+                console.log(data[1][i].name)
+
+                nodeNo.push(data[1][i].name);
+                nodeCount++;
+            }
+
+            console.log(nodeNo)
+            var nononono = []
+            for (i = 0; i < data[2].length; i++) {
+                nononono.push(findParentNodeValue(data[2][i].ipAddress.name))
+            }
+            console.log(nononono)
+
+            //add vms to dataset
+            for (i = 0; i < data[2].length; i++) {
+                dataset.nodes.push({name: data[2][i].name, type: "vms"})
+                dataset.edges.push({source: findParentNodeValue(data[2][i].ipAddress.name), target: nodeCount})
+                //console.log(data[2][i].name + ", " + data[2][i].ipAddress.name + ", " + findParentNodeValue(data[2][i].ipAddress.name))
+
+                nodeNo.push(data[2][i].name);
+                nodeCount++;
+            }
+
+
+            console.log(dataset.nodes)
+
+            console.log(dataset.nodes);
+            console.log(dataset.edges);
+            //Initialize a default force layout, using the nodes and edges in dataset
+            var force = d3.layout.force()
+                                 .nodes(dataset.nodes)
+                                 .links(dataset.edges)
+                                 .size([w, h])
+                                 .linkDistance([100])
+                                 .charge([-500])
+                                 .start();
+
+            var colors = d3.scale.category10();
+
+            //Create SVG element
+            var svg = d3.select("#graph")
+                        .append("svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+            //Create edges as lines
+            var edges = svg.selectAll("line")
+                .data(dataset.edges)
+                .enter()
+                .append("line")
+                .style("stroke", "#ccc")
+                .style("stroke-width", 6);
+            //Create nodes as circles
+            var nodes = svg.selectAll("circle")
+                .data(dataset.nodes)
+                .enter()
+                .append("circle")
+                .attr("r", 15)
+                .attr("id", function(d) { return d.name })
+                // Set the contents of the tooltip.
+                .attr("data-ot", function(d) { return ("ID: <em>" + d.name + "</em><br/> Connections: <em>" + d.connections + "</em>")})
+                .style("fill", function(d, i) {
+                    if (d.type == "ext") { return colors(1);}
+                    else if (d.type == "rou") { return colors(2);}
+                    else if (d.type == "net") { return colors(3);}
+                    else { return colors(4);}
+                })
+                .call(force.drag);
+            //Every time the simulation "ticks", this will be called
+            force.on("tick", function() {
+                edges.attr("x1", function(d) { return d.source.x; })
+                     .attr("y1", function(d) { return d.source.y; })
+                     .attr("x2", function(d) { return d.target.x; })
+                     .attr("y2", function(d) { return d.target.y; });
+
+                nodes.attr("cx", function(d) { return d.x; })
+                     .attr("cy", function(d) { return d.y; });
+            });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
     //Run when page is opened
     update();
