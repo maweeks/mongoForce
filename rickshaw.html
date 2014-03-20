@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="d3.js" type="text/javascript"></script>
+		<script src="rickshaw.js" type="text/javascript"></script>
+		<script src="jquery.js" ></script>
+	</head>
+	<body>
+		<div id="graph"></div>
+		<script type="text/javascript">
+			var data = [ { x: 0, y: 10 },
+						 { x: 1, y: 10 },
+						 { x: 2, y: 50 },
+						 { x: 3, y: 30 },
+						 { x: 4, y: 40 },
+						 { x: 5, y: 49 },
+						 { x: 6, y: 61 },
+						 { x: 7, y: 80 },
+						 { x: 8, y: 85 },
+						 { x: 9, y: 80 },
+						 { x: 10, y: 90 },
+						 { x: 11, y: 10 },
+						 { x: 12, y: 50 },
+						 { x: 13, y: 30 },
+						 { x: 14, y: 40 },
+						 { x: 15, y: 49 },
+						 { x: 16, y: 61 },
+						 { x: 17, y: 80 },
+						 { x: 18, y: 85 },
+						 { x: 19, y: 80 },
+						 { x: 20, y: 90 },
+						 { x: 21, y: 50 },
+						 { x: 22, y: 50 },
+						 { x: 23, y: 30 },
+						 { x: 24, y: 40 },
+						 { x: 25, y: 49 } ];
+			var r = data.length;
+			var graph = new Rickshaw.Graph( {
+				element: document.querySelector("#graph"),
+				width: (window.innerWidth-20),
+            	height: (window.innerHeight-20)/3,
+				series: [ {
+					color: 'steelblue',
+					data: data
+				} ]
+			} );
+			graph.render();
+
+
+			function updateGraph1() {
+				r+=1
+				data.shift();
+				data.push({x:r,y:Math.floor((Math.random()*100)+1)})
+
+				graph.update();
+				setTimeout(updateGraph1, 400);
+			}
+
+			///////////
+
+			var dateNow = new Date();
+			var data2a = [{ x: (new Date(dateNow.getTime() - 9800)).getTime(), y: 10 },
+									 { x: (new Date(dateNow.getTime() - 9400)).getTime(), y: 10 },
+									 { x: (new Date(dateNow.getTime() - 9200)).getTime(), y: 50 },
+									 { x: (new Date(dateNow.getTime() - 8800)).getTime(), y: 30 },
+									 { x: (new Date(dateNow.getTime() - 8400)).getTime(), y: 40 },
+									 { x: (new Date(dateNow.getTime() - 8000)).getTime(), y: 49 },
+									 { x: (new Date(dateNow.getTime() - 7600)).getTime(), y: 61 },
+									 { x: (new Date(dateNow.getTime() - 7200)).getTime(), y: 80 },
+									 { x: (new Date(dateNow.getTime() - 6800)).getTime(), y: 85 },
+									 { x: (new Date(dateNow.getTime() - 6400)).getTime(), y: 80 },
+									 { x: (new Date(dateNow.getTime() - 6000)).getTime(), y: 90 },
+									 { x: (new Date(dateNow.getTime() - 5600)).getTime(), y: 10 },
+									 { x: (new Date(dateNow.getTime() - 5200)).getTime(), y: 50 },
+									 { x: (new Date(dateNow.getTime() - 4800)).getTime(), y: 30 },
+									 { x: (new Date(dateNow.getTime() - 4400)).getTime(), y: 40 },
+									 { x: (new Date(dateNow.getTime() - 4000)).getTime(), y: 49 },
+									 { x: (new Date(dateNow.getTime() - 3600)).getTime(), y: 61 },
+									 { x: (new Date(dateNow.getTime() - 3200)).getTime(), y: 80 },
+									 { x: (new Date(dateNow.getTime() - 2800)).getTime(), y: 85 },
+									 { x: (new Date(dateNow.getTime() - 2400)).getTime(), y: 80 },
+									 { x: (new Date(dateNow.getTime() - 2000)).getTime(), y: 90 },
+									 { x: (new Date(dateNow.getTime() - 1600)).getTime(), y: 50 },
+									 { x: (new Date(dateNow.getTime() - 1200)).getTime(), y: 50 },
+									 { x: (new Date(dateNow.getTime() - 800)).getTime(), y: 30 },
+									 { x: (new Date(dateNow.getTime() - 400)).getTime(), y: 40 },
+									 { x: (new Date(dateNow.getTime())).getTime(), y: 49 }];
+			var data2b = [{ x: (new Date(dateNow.getTime() - 9800)).getTime(), y: 10 },
+									 { x: (new Date(dateNow.getTime() - 9400)).getTime(), y: 10 },
+									 { x: (new Date(dateNow.getTime() - 9200)).getTime(), y: 50 },
+									 { x: (new Date(dateNow.getTime() - 8800)).getTime(), y: 30 },
+									 { x: (new Date(dateNow.getTime() - 8400)).getTime(), y: 40 },
+									 { x: (new Date(dateNow.getTime() - 8000)).getTime(), y: 49 },
+									 { x: (new Date(dateNow.getTime() - 7600)).getTime(), y: 61 },
+									 { x: (new Date(dateNow.getTime() - 7200)).getTime(), y: 80 },
+									 { x: (new Date(dateNow.getTime() - 6800)).getTime(), y: 85 },
+									 { x: (new Date(dateNow.getTime() - 6400)).getTime(), y: 80 },
+									 { x: (new Date(dateNow.getTime() - 6000)).getTime(), y: 90 },
+									 { x: (new Date(dateNow.getTime() - 5600)).getTime(), y: 10 },
+									 { x: (new Date(dateNow.getTime() - 5200)).getTime(), y: 50 },
+									 { x: (new Date(dateNow.getTime() - 4800)).getTime(), y: 30 },
+									 { x: (new Date(dateNow.getTime() - 4400)).getTime(), y: 0 },
+									 { x: (new Date(dateNow.getTime() - 4000)).getTime(), y: 49 },
+									 { x: (new Date(dateNow.getTime() - 3600)).getTime(), y: 61 },
+									 { x: (new Date(dateNow.getTime() - 3200)).getTime(), y: 80 },
+									 { x: (new Date(dateNow.getTime() - 2800)).getTime(), y: 85 },
+									 { x: (new Date(dateNow.getTime() - 2400)).getTime(), y: 80 },
+									 { x: (new Date(dateNow.getTime() - 2000)).getTime(), y: 90 },
+									 { x: (new Date(dateNow.getTime() - 1600)).getTime(), y: 50 },
+									 { x: (new Date(dateNow.getTime() - 1200)).getTime(), y: 50 },
+									 { x: (new Date(dateNow.getTime() - 800)).getTime(), y: 30 },
+									 { x: (new Date(dateNow.getTime() - 400)).getTime(), y: 40 },
+									 { x: (new Date(dateNow.getTime())).getTime(), y: 49 }];
+			var graph2 = new Rickshaw.Graph({
+			        element: document.querySelector("#graph"),
+							width: (window.innerWidth-20),
+			            	height: (window.innerHeight-20)/3,
+			        renderer: 'line',
+			        series: [{
+			        		data: 	data2a,
+			                color: 'steelblue'
+			        }, {
+			                data: data2b,
+			                color: 'lightblue'
+			        }]
+			});
+ 
+			graph2.render();
+
+			function updateGraph2() {
+				data2a.shift();
+				data2a.push({x:(new Date().getTime()),y:Math.floor((Math.random()*100)+1)})
+				data2b.shift();
+				data2b.push({x:(new Date().getTime()),y:Math.floor((Math.random()*100)+1)})
+				graph2.update();
+				setTimeout(updateGraph2, 400);
+			}
+
+///////////
+
+			var dateNow = new Date();
+			var data3a = [{ x: (new Date(dateNow.getTime() - 14800)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 14600)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 14400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 14200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 14000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 13600)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 13400)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 13200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 13000)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 12800)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 12600)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 12400)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 12200)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 12000)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 11800)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 11600)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 11400)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 11200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 11000)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 10800)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 10600)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 10400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 10200)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 10000)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 9800)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 9600)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 9400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 9200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 9000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 8800)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 8600)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 8400)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 8200)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 8000)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 7800)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 7600)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 7400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 7200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 7000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 6800)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 6600)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 6400)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 6200)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 6000)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 5800)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 5600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 5400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 5200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 5000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 4800)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 4600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 4400)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 4200)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 4000)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 3800)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 3600)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 3400)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 3200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 3000)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 2800)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 2600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 2400)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 2200)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 2000)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 1800)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 1600)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 1400)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 1200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 1000)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 800)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 400)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 200)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime())).getTime(), y: 49 }];
+
+			var data3b = [{ x: (new Date(dateNow.getTime() - 14800)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 14600)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 14400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 14200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 14000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 13600)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 13400)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 13200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 13000)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 12800)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 12600)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 12400)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 12200)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 12000)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 11800)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 11600)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 11400)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 11200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 11000)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 10800)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 10600)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 10400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 10200)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 10000)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 9800)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 9600)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 9400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 9200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 9000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 8800)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 8600)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 8400)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 8200)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 8000)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 7800)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 7600)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 7400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 7200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 7000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 6800)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 6600)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 6400)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 6200)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 6000)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 5800)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 5600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 5400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 5200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 5000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 4800)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 4600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 4400)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 4200)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 4000)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 3800)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 3600)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 3400)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 3200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 3000)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 2800)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 2600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 2400)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 2200)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 2000)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 1800)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 1600)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 1400)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 1200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 1000)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 800)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 400)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 200)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime())).getTime(), y: 49 }];
+
+			var data3d = [{ x: (new Date(dateNow.getTime() - 14800)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 14600)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 14400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 14200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 14000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 13600)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 13400)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 13200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 13000)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 12800)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 12600)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 12400)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 12200)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 12000)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 11800)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 11600)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 11400)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 11200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 11000)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 10800)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 10600)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 10400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 10200)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 10000)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 9800)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 9600)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 9400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 9200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 9000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 8800)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 8600)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 8400)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 8200)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 8000)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 7800)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 7600)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 7400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 7200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 7000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 6800)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 6600)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 6400)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 6200)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 6000)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 5800)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 5600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 5400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 5200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 5000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 4800)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 4600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 4400)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 4200)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 4000)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 3800)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 3600)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 3400)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 3200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 3000)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 2800)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 2600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 2400)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 2200)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 2000)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 1800)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 1600)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 1400)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 1200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 1000)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 800)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 400)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 200)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime())).getTime(), y: 49 }];
+
+			var data3e = [{ x: (new Date(dateNow.getTime() - 14800)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 14600)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 14400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 14200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 14000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 13600)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 13400)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 13200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 13000)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 12800)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 12600)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 12400)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 12200)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 12000)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 11800)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 11600)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 11400)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 11200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 11000)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 10800)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 10600)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 10400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 10200)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 10000)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 9800)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 9600)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 9400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 9200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 9000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 8800)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 8600)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 8400)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 8200)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 8000)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 7800)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 7600)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 7400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 7200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 7000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 6800)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 6600)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 6400)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 6200)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 6000)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 5800)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 5600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 5400)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 5200)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 5000)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 4800)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 4600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 4400)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 4200)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 4000)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 3800)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 3600)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 3400)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 3200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 3000)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 2800)).getTime(), y: 10 },
+						 { x: (new Date(dateNow.getTime() - 2600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 2400)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 2200)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime() - 2000)).getTime(), y: 49 },
+						 { x: (new Date(dateNow.getTime() - 1800)).getTime(), y: 61 },
+						 { x: (new Date(dateNow.getTime() - 1600)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 1400)).getTime(), y: 85 },
+						 { x: (new Date(dateNow.getTime() - 1200)).getTime(), y: 80 },
+						 { x: (new Date(dateNow.getTime() - 1000)).getTime(), y: 90 },
+						 { x: (new Date(dateNow.getTime() - 800)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 600)).getTime(), y: 50 },
+						 { x: (new Date(dateNow.getTime() - 400)).getTime(), y: 30 },
+						 { x: (new Date(dateNow.getTime() - 200)).getTime(), y: 40 },
+						 { x: (new Date(dateNow.getTime())).getTime(), y: 49 }];
+			var data3c = [{ x: (new Date(dateNow.getTime() - 15000)).getTime(), y: 0 }, { x: (new Date().getTime()), y:0 }];
+			var graph3 = new Rickshaw.Graph({
+			        element: document.querySelector("#graph"),
+							width: (window.innerWidth-20),
+			            	height: (window.innerHeight-20)/3,
+			        renderer: 'line',
+			        series: [{
+			        		data: 	data3a,
+			                color: 'steelblue'
+			        }, {
+			                data: data3b,
+			                color: 'lightblue'
+			        }, {
+			                data: data3c,
+			                color: 'white'
+			        }, {
+			                data: data3d,
+			                color: 'darkcyan'
+			        }, {
+			                data: data3e,
+			                color: 'aquamarine'
+			        }]
+			});
+ 
+			graph3.render();
+
+			function updateGraph3() {
+				data3a.shift();
+				data3a.push({x:(new Date().getTime()),y:Math.floor((Math.random()*100)+1)})
+				data3b.shift();
+				data3b.push({x:(new Date().getTime()),y:Math.floor((Math.random()*100)+1)})
+				data3d.shift();
+				data3d.push({x:(new Date().getTime()),y:Math.floor((Math.random()*100)+1)})
+				data3e.shift();
+				data3e.push({x:(new Date().getTime()),y:Math.floor((Math.random()*100)+1)})
+				graph3.update();
+				setTimeout(updateGraph3, 190);
+				console.log("" + (data3c[1].x-data3a[0].x) + " " + (data3c[1].x-data3c[0].x));
+			}
+
+			function refreshGraph3() {
+				data3c.shift();
+				data3c.shift();
+				data3c.push({ x: (new Date(new Date().getTime() - 15000)).getTime(), y: 0 });
+				data3c.push({x:(new Date().getTime()),y:0});
+				graph3.update();
+				setTimeout(refreshGraph3,20);
+			}
+
+			function updateGraphs() {
+				updateGraph1();
+				updateGraph2();
+				updateGraph3();
+				refreshGraph3();
+			}
+
+			updateGraphs();
+
+		</script>
+	</body>
+</html>
